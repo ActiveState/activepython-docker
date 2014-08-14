@@ -12,5 +12,8 @@ RUN tar zxf ActivePython* && \
 
 ENV PATH /opt/ActivePython-${PY_VER}/bin:/.local/bin:$PATH
 
-# Update (possibly) outdated packages in ActivePython install
-RUN pip install -U pip virtualenv setuptools
+# Update (possibly) outdated packages in ActivePython install.
+# However, first remove virtualenv, to workaround issue #1 (GitHub).
+RUN pip uninstall -y virtualenv && pip install -U pip virtualenv setuptools
+
+
