@@ -12,8 +12,10 @@ RUN tar zxf ActivePython* && \
 
 ENV PATH /opt/ActivePython-${PY_VER}/bin:/.local/bin:$PATH
 
+# Build dependencies for 'pip install <c-extensions>'
+ENV DEBS build-essential git
+RUN apt-get -qy update && apt-get -qy install ${DEBS} && apt-get -qy clean
+
 # Update (possibly) outdated packages in ActivePython install.
 # However, first remove virtualenv, to workaround issue #1 (GitHub).
 RUN pip uninstall -y virtualenv && pip install -U pip virtualenv setuptools
-
-
